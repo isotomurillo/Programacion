@@ -1,0 +1,36 @@
+def es_magico(mat):
+    if isinstance (mat,list):
+        return magico1(mat,0,0,suma(mat,0,0,0),suma(mat,0,1,0))  #Confucion al escribir parametros, el 1 pertenece a fil, no a col
+    else: return "Error"
+def magico1(mat,col,fil,res1,res2):
+    if res1!=res2:
+        return False
+    elif fil==len(mat)-2:                                        #Falto colocacion -2 por nivelacion de la fila por incremento en el "else:"
+        return magico2(mat,0,0,res2,sumadia(mat,0,0,0))          #* ultimo parametro colocado en la funcion, en vez de la llamada
+    else:
+        return magico1(mat,col,fil+1,res2,suma(mat,col,fil+2,0))
+def suma(mat,col,fil,res):
+    if col==len(mat):
+        return res
+    else:
+        return suma(mat,col+1,fil,res+mat[fil][col])  
+def magico2(mat,col,fil,res1,res2):                              #* parametro "res2" colocado en la llamada a funcion en linea 9
+    if res1!=res2:
+        return False
+    else:
+        return magico3(mat,0,0,res2,sumaanti(mat,0,0,0))
+def sumadia(mat,fil,col,res):
+    if fil==len(mat):
+        return res
+    else:
+        return sumadia(mat,fil+1,col+1,res+mat[fil][col])
+def magico3(mat,col,fil,res1,res2):
+    if res1==res2:
+        return True
+    else:
+        return False
+def sumaanti(mat,fil,col,res):
+    if fil==(-len(mat)):
+        return res
+    else:
+        return sumaanti(mat,fil-1,col-1,res+mat[fil][col])
