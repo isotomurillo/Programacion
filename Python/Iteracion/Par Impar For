@@ -1,0 +1,12 @@
+def par_imp (lista):
+    if isinstance (lista,list) and lista!=[]:
+        return par_imp_aux(lista)
+    else: return "Error"
+
+def par_imp_aux (lista):
+    listapar=[]
+    listaimpar=[]
+    for valor in lista:
+        if (valor%2==0): listapar+=[valor]
+        else: listaimpar+=[valor]
+    return listapar,listaimpar
