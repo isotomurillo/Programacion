@@ -1,0 +1,735 @@
+import pygame,sys
+from pygame.locals import *
+
+pygame.init()
+ventana = pygame.display.set_mode((920,800))   #Se define el tamaño de la ventana
+pygame.display.set_caption("pyDeathRace")      #nombre de la ventana
+
+Verd = (0,140,60)                             #Color del Fondo del escenario
+negro=(0,0,0)
+Img = pygame.image.load("Img/Firstt.png")
+J2= pygame.image.load("Img/J2.png")
+J1= pygame.image.load("Img/J1.png")
+JPC1= pygame.image.load("Img/JPC1.png")
+JPC2= pygame.image.load("Img/JPC1.png")
+JPC3= pygame.image.load("Img/JPC1.png")
+JPC4= pygame.image.load("Img/JPC1.png")
+JPC5= pygame.image.load("Img/JPC1.png")
+JPC6= pygame.image.load("Img/JPC1.png")
+proyect=pygame.image.load("Img/Proyect.png")
+menu=pygame.image.load("Img/menu.jpg")
+
+global xJ1,yJ1,J1_dir,xJ2,yJ2,J2_dir
+xJ1,yJ1=740,106                                 #posicion Jugador 1
+J1_dir=1                                        #direccion inicio Jugador 1
+
+xJ2,yJ2=740,150
+J2_dir=1
+
+# posicion de PC's
+xJPC1,yJPC1 =500,106
+xJPC2,yJPC2 =580,106
+xJPC3,yJPC3 =500,150
+xJPC4,yJPC4 =580,150
+xJPC5,yJPC5 =660,106
+xJPC6,yJPC6 =660,150
+
+#direccion de PC's
+PC1_dir=1
+PC2_dir=1
+PC3_dir=1
+PC4_dir=1
+PC5_dir=1
+PC6_dir=1
+
+
+rot=90                                           #angulo de rotacion
+
+
+vel=1
+velJ1=0
+velJ2=0
+
+rect_x = 50
+rect_y = 50
+fuente = pygame.font.Font(None, 36)
+
+opcion=0
+
+
+
+while True:
+    
+    if opcion==0:
+        ventana.fill(negro)
+        ventana.blit(menu,(65,100))
+        Game=True
+        for evento in pygame.event.get():
+                if evento.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if evento.type==pygame.KEYDOWN:
+                    if evento.key==K_1:
+                        pygame.mixer.music.load("Sound/Track 1.mp3")
+                        pygame.mixer.music.play(1)
+                        opcion=2
+                        
+                    elif evento.key==K_2:
+                        pygame.mixer.music.load("Sound/Track 1.mp3")
+                        pygame.mixer.music.play(1)
+                        opcion=1
+
+                    else:
+                        pass
+        
+    elif opcion==1:
+        
+        ventana.fill(Verd)
+        
+        ventana.blit(Img,(65,100))
+        
+        Pasto2 = pygame.draw.rect(ventana,Verd,(150,196,622,373))
+        ventana.blit(J2,(xJ2,yJ2))
+        rectJ2=J2.get_rect()
+        rectJ2.centerx=xJ2
+        rectJ2.centery=yJ2
+
+        ventana.blit(J1,(xJ1,yJ1))
+        rectJ1=J1.get_rect()
+        rectJ1.centerx=xJ1
+        rectJ1.centery=yJ1
+        
+        
+        ventana.blit(JPC1,(xJPC1,yJPC1))
+        rectJPC1=JPC1.get_rect()
+        rectJPC1.centerx=xJPC1
+        rectJPC1.centery=yJPC1
+
+        ventana.blit(JPC2,(xJPC2,yJPC2))
+        rectJPC2=JPC2.get_rect()
+        rectJPC2.centerx=xJPC2
+        rectJPC2.centery=yJPC2
+        
+        ventana.blit(JPC3,(xJPC3,yJPC3))
+        rectJPC1=JPC1.get_rect()
+        rectJPC1.centerx=xJPC1
+        rectJPC1.centery=yJPC1
+        
+        ventana.blit(JPC4,(xJPC4,yJPC4))
+        ventana.blit(JPC5,(xJPC5,yJPC5))
+        ventana.blit(JPC6,(xJPC6,yJPC6))
+        
+        if Game==True:
+
+            if J2_dir==1 or J2_dir==5:
+                J2_dir=1
+                yJ2=yJ2
+                xJ2-=velJ2
+            elif J2_dir==3:
+                yJ2=yJ2
+                xJ2+=velJ2
+            elif J2_dir==2:
+                xJ2=xJ2
+                yJ2-=velJ2
+            elif J2_dir==4 or J2_dir==0:
+                J2_dir=4
+                xJ2=xJ2
+                yJ2+=velJ2
+            if rectJ2.colliderect(rectJPC1):
+                velJ2=0
+                print("Choque")
+                Game=False
+                
+            if rectJ2.colliderect(Pasto2):
+                velJ2=0
+                print("Fuera del carril")
+                Game=False
+            for evento in pygame.event.get():
+                if evento.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if evento.type==pygame.KEYDOWN:
+                    if evento.key==K_w:
+                        if velJ2>=6:
+                            velJ2=velJ2
+                        else:
+                            velJ2+=2
+                    elif evento.key==K_s:
+                        if velJ2<=(-3):
+                            velJ2=velJ2
+                        else:
+                            velJ2-=2
+                    elif evento.key==K_a:
+                        J2=pygame.transform.rotate(J2,90)
+                        J2_dir-=1
+                    elif evento.key==K_d:
+                        J2=pygame.transform.rotate(J2,-90)
+                        J2_dir+=1
+                        
+            if J1_dir==1 or J1_dir==5:
+                J1_dir=1
+                yJ1=yJ1
+                xJ1-=velJ1
+            elif J1_dir==3:
+                yJ1=yJ1
+                xJ1+=velJ1
+            elif J1_dir==2:
+                xJ1=xJ1
+                yJ1-=velJ1
+            elif J1_dir==4 or J1_dir==0:
+                J1_dir=4
+                xJ1=xJ1
+                yJ1+=velJ1                
+            if rectJ1.colliderect(Pasto2):
+                velJ1=0
+                print("Fuera del carril")
+                Game=False
+            for evento in pygame.event.get():
+                if evento.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if evento.type==pygame.KEYDOWN:
+                    if evento.key==K_UP:
+                        if velJ1>=6:
+                            velJ1=velJ1
+                        else:
+                            velJ1+=2
+                    elif evento.key==K_DOWN:
+                        if velJ1<=(-3):
+                            velJ1=velJ1
+                        else:
+                            velJ1-=2
+                    elif evento.key==K_LEFT:
+                        J1=pygame.transform.rotate(J1,90)
+                        J1_dir-=1
+                    elif evento.key==K_RIGHT:
+                        J1=pygame.transform.rotate(J1,-90)
+                        J1_dir+=1
+                    elif evento.key==K_l:
+                        ventana.blit(proyect,(xJ1,yJ1))
+                        rectproyect=proyect.get_rect()
+                        rectproyect.centerx=xJ1
+                        rectproyect.centery=yJ1
+
+
+            
+                    
+
+      #MovimientoPC1                
+            if PC1_dir== 1 or PC1_dir==5:
+                PC1_dir=1
+                yJPC1=yJPC1
+                if xJPC1<=785 and xJPC1>=110:
+                    xJPC1-=vel+1
+                else:
+                    PC1_dir+=1
+                    JPC1=pygame.transform.rotate(JPC1,90)
+                    
+            elif PC1_dir==2:
+                xJPC1=xJPC1
+                if yJPC1>=100 and yJPC1<=602:
+                    yJPC1+=vel
+                else:
+                    PC1_dir+=1
+                    JPC1=pygame.transform.rotate(JPC1,90)
+                    
+            elif PC1_dir==3:
+                yJPC1=yJPC1            
+                if xJPC1>=70 and xJPC1<=770:
+                    xJPC1+=vel+1
+                else:
+                    PC1_dir+=1
+                    JPC1=pygame.transform.rotate(JPC1,90)
+                    
+            elif PC1_dir== 4 or PC1_dir==0:
+                PC1_dir=4
+                xJPC1=xJPC1
+                if yJPC1<=606 and yJPC1>=106:
+                    yJPC1-=vel+2
+                else:
+                    PC1_dir+=1
+                    JPC1=pygame.transform.rotate(JPC1,90)
+            if rectJPC1.colliderect(rectJ1) or rectJPC1.colliderect(rectJ2):
+                velJ1=0
+                velJ2=0
+                print("Choque")
+                Game=False
+
+      #movimiento PC2
+            if PC2_dir== 1 or PC2_dir==5:
+                PC2_dir=1
+                yJPC2=yJPC2
+                if xJPC2<=785 and xJPC2>=71:
+                    xJPC2-=vel
+                else:
+                    PC2_dir+=1
+                    JPC2=pygame.transform.rotate(JPC2,90)
+                    
+            elif PC2_dir==2:
+                xJPC2=xJPC2
+                if yJPC2>=100 and yJPC2<=602:
+                    yJPC2+=vel+1
+                else:
+                    PC2_dir+=1
+                    JPC2=pygame.transform.rotate(JPC2,90)
+                    
+            elif PC2_dir==3:
+                yJPC2=yJPC2            
+                if xJPC2>=70 and xJPC2<=770:
+                    xJPC2+=vel
+                else:
+                    PC2_dir+=1
+                    JPC2=pygame.transform.rotate(JPC2,90)
+                    
+            elif PC2_dir== 4 or PC2_dir==0:
+                PC2_dir=4
+                xJPC2=xJPC2
+                if yJPC2<=606 and yJPC2>=106:
+                    yJPC2-=vel
+                else:
+                    PC2_dir+=1
+                    JPC2=pygame.transform.rotate(JPC2,90)
+
+      #Movimiento PC3
+            if PC3_dir== 1 or PC3_dir==5:
+                PC3_dir=1
+                yJPC3=yJPC3
+                if xJPC3<=785 and xJPC3>=110:
+                    xJPC3-=vel
+                else:
+                    PC3_dir+=1
+                    JPC3=pygame.transform.rotate(JPC3,90)
+                    
+            elif PC3_dir==2:
+                xJPC3=xJPC3
+                if yJPC3>=100 and yJPC3<=602:
+                    yJPC3+=vel+1
+                else:
+                    PC3_dir+=1
+                    JPC3=pygame.transform.rotate(JPC3,90)
+                    
+            elif PC3_dir==3:
+                yJPC3=yJPC3            
+                if xJPC3>=70 and xJPC3<=770:
+                    xJPC3+=vel
+                else:
+                    PC3_dir+=1
+                    JPC3=pygame.transform.rotate(JPC3,90)
+                    
+            elif PC3_dir== 4 or PC3_dir==0:
+                PC3_dir=4
+                xJPC3=xJPC3
+                if yJPC3<=606 and yJPC3>=106:
+                    yJPC3-=vel
+                else:
+                    PC3_dir+=1
+                    JPC3=pygame.transform.rotate(JPC3,90)
+
+        #Movimiento PC4
+            if PC4_dir== 1 or PC4_dir==5:
+                PC4_dir=1
+                yJPC4=yJPC4
+                if xJPC4<=785 and xJPC4>=71:
+                    xJPC4-=vel+1
+                else:
+                    PC4_dir+=1
+                    JPC4=pygame.transform.rotate(JPC4,90)
+                    
+            elif PC4_dir==2:
+                xJPC4=xJPC4
+                if yJPC4>=100 and yJPC4<=602:
+                    yJPC4+=vel+1
+                else:
+                    PC4_dir+=1
+                    JPC4=pygame.transform.rotate(JPC4,90)
+                    
+            elif PC4_dir==3:
+                yJPC4=yJPC4            
+                if xJPC4>=70 and xJPC4<=770:
+                    xJPC4+=vel+1
+                else:
+                    PC4_dir+=1
+                    JPC4=pygame.transform.rotate(JPC4,90)
+                    
+            elif PC4_dir== 4 or PC4_dir==0:
+                PC4_dir=4
+                xJPC4=xJPC4
+                if yJPC4<=606 and yJPC4>=106:
+                    yJPC4-=vel+1
+                else:
+                    PC4_dir+=1
+                    JPC4=pygame.transform.rotate(JPC4,90)
+
+        #Movimiento PC5
+            if PC5_dir== 1 or PC5_dir==5:
+                PC5_dir=1
+                yJPC5=yJPC5
+                if xJPC5<=785 and xJPC5>=71:
+                    xJPC5-=vel
+                else:
+                    PC5_dir+=1
+                    JPC5=pygame.transform.rotate(JPC5,90)
+                    
+            elif PC5_dir==2:
+                xJPC5=xJPC5
+                if yJPC5>=100 and yJPC5<=602:
+                    yJPC5+=vel+1
+                else:
+                    PC5_dir+=1
+                    JPC5=pygame.transform.rotate(JPC5,90)
+                    
+            elif PC5_dir==3:
+                yJPC5=yJPC5            
+                if xJPC5>=70 and xJPC5<=770:
+                    xJPC5+=vel+1
+                else:
+                    PC5_dir+=1
+                    JPC5=pygame.transform.rotate(JPC5,90)
+                    
+            elif PC5_dir== 4 or PC5_dir==0:
+                PC5_dir=4
+                xJPC5=xJPC5
+                if yJPC5<=606 and yJPC5>=106:
+                    yJPC5-=vel+2
+                else:
+                    PC5_dir+=1
+                    JPC5=pygame.transform.rotate(JPC5,90)
+
+        #Movimiento PC6
+                    
+            if PC6_dir== 1 or PC6_dir==5:
+                PC6_dir=1
+                yJPC6=yJPC6
+                if xJPC6<=785 and xJPC6>=110:
+                    xJPC6-=vel
+                else:
+                    PC6_dir+=1
+                    JPC6=pygame.transform.rotate(JPC6,90)
+                    
+            elif PC6_dir==2:
+                xJPC6=xJPC6
+                if yJPC6>=100 and yJPC6<=602:
+                    yJPC6+=vel+1
+                else:
+                    PC6_dir+=1
+                    JPC6=pygame.transform.rotate(JPC6,90)
+                    
+            elif PC6_dir==3:
+                yJPC6=yJPC6            
+                if xJPC6>=70 and xJPC6<=770:
+                    xJPC6+=vel+1
+                else:
+                    PC6_dir+=1
+                    JPC6=pygame.transform.rotate(JPC6,90)
+                    
+            elif PC6_dir== 4 or PC6_dir==0:
+                PC6_dir=4
+                xJPC6=xJPC6
+                if yJPC6<=606 and yJPC6>=106:
+                    yJPC6-=vel+2
+                else:
+                    PC6_dir+=1
+                    JPC6=pygame.transform.rotate(JPC6,90)
+    elif opcion==2:
+        
+        ventana.fill(Verd)
+        
+        ventana.blit(Img,(65,100))
+        
+        Pasto2 = pygame.draw.rect(ventana,Verd,(150,196,622,373))
+               
+        ventana.blit(J1,(xJ1,yJ1))
+        rectJ1=J1.get_rect()
+        rectJ1.centerx=xJ1
+        rectJ1.centery=yJ1
+        
+        
+        ventana.blit(JPC1,(xJPC1,yJPC1))
+        rectJPC1=JPC1.get_rect()
+        rectJPC1.centerx=xJPC1
+        rectJPC1.centery=yJPC1
+
+        ventana.blit(JPC2,(xJPC2,yJPC2))
+        rectJPC2=JPC2.get_rect()
+        rectJPC2.centerx=xJPC2
+        rectJPC2.centery=yJPC2
+        
+        ventana.blit(JPC3,(xJPC3,yJPC3))
+        rectJPC1=JPC1.get_rect()
+        rectJPC1.centerx=xJPC1
+        rectJPC1.centery=yJPC1
+        
+        ventana.blit(JPC4,(xJPC4,yJPC4))
+        ventana.blit(JPC5,(xJPC5,yJPC5))
+        ventana.blit(JPC6,(xJPC6,yJPC6))
+        
+        if Game==True:         
+                
+            if J1_dir==1 or J1_dir==5:
+                J1_dir=1
+                yJ1=yJ1
+                xJ1-=velJ1
+            elif J1_dir==3:
+                yJ1=yJ1
+                xJ1+=velJ1
+            elif J1_dir==2:
+                xJ1=xJ1
+                yJ1-=velJ1
+            elif J1_dir==4 or J1_dir==0:
+                J1_dir=4
+                xJ1=xJ1
+                yJ1+=velJ1
+            if rectJ1.colliderect(rectJPC1):
+                velJ1=0
+                print("Choque")
+                Game=False
+                
+            if rectJ1.colliderect(Pasto2):
+                velJ1=0
+                print("Fuera del carril")
+                Game=False
+            for evento in pygame.event.get():
+                if evento.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if evento.type==pygame.KEYDOWN:
+                    if evento.key==K_UP:
+                        if velJ1>=6:
+                            velJ1=velJ1
+                        else:
+                            velJ1+=2
+                    elif evento.key==K_DOWN:
+                        if velJ1<=(-3):
+                            velJ1=velJ1
+                        else:
+                            velJ1-=2
+                    elif evento.key==K_LEFT:
+                        J1=pygame.transform.rotate(J1,90)
+                        J1_dir-=1
+                    elif evento.key==K_RIGHT:
+                        J1=pygame.transform.rotate(J1,-90)
+                        J1_dir+=1
+                    elif evento.key==K_l:
+                        ventana.blit(proyect,(xJ1,yJ1))
+                        rectproyect=proyect.get_rect()
+                        rectproyect.centerx=xJ1
+                        rectproyect.centery=yJ1
+                    
+
+      #MovimientoPC1                
+            if PC1_dir== 1 or PC1_dir==5:
+                PC1_dir=1
+                yJPC1=yJPC1
+                if xJPC1<=785 and xJPC1>=110:
+                    xJPC1-=vel+1
+                else:
+                    PC1_dir+=1
+                    JPC1=pygame.transform.rotate(JPC1,90)
+                    
+            elif PC1_dir==2:
+                xJPC1=xJPC1
+                if yJPC1>=100 and yJPC1<=602:
+                    yJPC1+=vel
+                else:
+                    PC1_dir+=1
+                    JPC1=pygame.transform.rotate(JPC1,90)
+                    
+            elif PC1_dir==3:
+                yJPC1=yJPC1            
+                if xJPC1>=70 and xJPC1<=770:
+                    xJPC1+=vel+1
+                else:
+                    PC1_dir+=1
+                    JPC1=pygame.transform.rotate(JPC1,90)
+                    
+            elif PC1_dir== 4 or PC1_dir==0:
+                PC1_dir=4
+                xJPC1=xJPC1
+                if yJPC1<=606 and yJPC1>=106:
+                    yJPC1-=vel+2
+                else:
+                    PC1_dir+=1
+                    JPC1=pygame.transform.rotate(JPC1,90)
+
+      #movimiento PC2
+            if PC2_dir== 1 or PC2_dir==5:
+                PC2_dir=1
+                yJPC2=yJPC2
+                if xJPC2<=785 and xJPC2>=71:
+                    xJPC2-=vel
+                else:
+                    PC2_dir+=1
+                    JPC2=pygame.transform.rotate(JPC2,90)
+                    
+            elif PC2_dir==2:
+                xJPC2=xJPC2
+                if yJPC2>=100 and yJPC2<=602:
+                    yJPC2+=vel+1
+                else:
+                    PC2_dir+=1
+                    JPC2=pygame.transform.rotate(JPC2,90)
+                    
+            elif PC2_dir==3:
+                yJPC2=yJPC2            
+                if xJPC2>=70 and xJPC2<=770:
+                    xJPC2+=vel
+                else:
+                    PC2_dir+=1
+                    JPC2=pygame.transform.rotate(JPC2,90)
+                    
+            elif PC2_dir== 4 or PC2_dir==0:
+                PC2_dir=4
+                xJPC2=xJPC2
+                if yJPC2<=606 and yJPC2>=106:
+                    yJPC2-=vel
+                else:
+                    PC2_dir+=1
+                    JPC2=pygame.transform.rotate(JPC2,90)
+
+      #Movimiento PC3
+            if PC3_dir== 1 or PC3_dir==5:
+                PC3_dir=1
+                yJPC3=yJPC3
+                if xJPC3<=785 and xJPC3>=110:
+                    xJPC3-=vel
+                else:
+                    PC3_dir+=1
+                    JPC3=pygame.transform.rotate(JPC3,90)
+                    
+            elif PC3_dir==2:
+                xJPC3=xJPC3
+                if yJPC3>=100 and yJPC3<=602:
+                    yJPC3+=vel+1
+                else:
+                    PC3_dir+=1
+                    JPC3=pygame.transform.rotate(JPC3,90)
+                    
+            elif PC3_dir==3:
+                yJPC3=yJPC3            
+                if xJPC3>=70 and xJPC3<=770:
+                    xJPC3+=vel
+                else:
+                    PC3_dir+=1
+                    JPC3=pygame.transform.rotate(JPC3,90)
+                    
+            elif PC3_dir== 4 or PC3_dir==0:
+                PC3_dir=4
+                xJPC3=xJPC3
+                if yJPC3<=606 and yJPC3>=106:
+                    yJPC3-=vel
+                else:
+                    PC3_dir+=1
+                    JPC3=pygame.transform.rotate(JPC3,90)
+
+        #Movimiento PC4
+            if PC4_dir== 1 or PC4_dir==5:
+                PC4_dir=1
+                yJPC4=yJPC4
+                if xJPC4<=785 and xJPC4>=71:
+                    xJPC4-=vel+1
+                else:
+                    PC4_dir+=1
+                    JPC4=pygame.transform.rotate(JPC4,90)
+                    
+            elif PC4_dir==2:
+                xJPC4=xJPC4
+                if yJPC4>=100 and yJPC4<=602:
+                    yJPC4+=vel+1
+                else:
+                    PC4_dir+=1
+                    JPC4=pygame.transform.rotate(JPC4,90)
+                    
+            elif PC4_dir==3:
+                yJPC4=yJPC4            
+                if xJPC4>=70 and xJPC4<=770:
+                    xJPC4+=vel+1
+                else:
+                    PC4_dir+=1
+                    JPC4=pygame.transform.rotate(JPC4,90)
+                    
+            elif PC4_dir== 4 or PC4_dir==0:
+                PC4_dir=4
+                xJPC4=xJPC4
+                if yJPC4<=606 and yJPC4>=106:
+                    yJPC4-=vel+1
+                else:
+                    PC4_dir+=1
+                    JPC4=pygame.transform.rotate(JPC4,90)
+
+        #Movimiento PC5
+            if PC5_dir== 1 or PC5_dir==5:
+                PC5_dir=1
+                yJPC5=yJPC5
+                if xJPC5<=785 and xJPC5>=71:
+                    xJPC5-=vel
+                else:
+                    PC5_dir+=1
+                    JPC5=pygame.transform.rotate(JPC5,90)
+                    
+            elif PC5_dir==2:
+                xJPC5=xJPC5
+                if yJPC5>=100 and yJPC5<=602:
+                    yJPC5+=vel+1
+                else:
+                    PC5_dir+=1
+                    JPC5=pygame.transform.rotate(JPC5,90)
+                    
+            elif PC5_dir==3:
+                yJPC5=yJPC5            
+                if xJPC5>=70 and xJPC5<=770:
+                    xJPC5+=vel+1
+                else:
+                    PC5_dir+=1
+                    JPC5=pygame.transform.rotate(JPC5,90)
+                    
+            elif PC5_dir== 4 or PC5_dir==0:
+                PC5_dir=4
+                xJPC5=xJPC5
+                if yJPC5<=606 and yJPC5>=106:
+                    yJPC5-=vel+2
+                else:
+                    PC5_dir+=1
+                    JPC5=pygame.transform.rotate(JPC5,90)
+
+        #Movimiento PC6
+                    
+            if PC6_dir== 1 or PC6_dir==5:
+                PC6_dir=1
+                yJPC6=yJPC6
+                if xJPC6<=785 and xJPC6>=110:
+                    xJPC6-=vel
+                else:
+                    PC6_dir+=1
+                    JPC6=pygame.transform.rotate(JPC6,90)
+                    
+            elif PC6_dir==2:
+                xJPC6=xJPC6
+                if yJPC6>=100 and yJPC6<=602:
+                    yJPC6+=vel+1
+                else:
+                    PC6_dir+=1
+                    JPC6=pygame.transform.rotate(JPC6,90)
+                    
+            elif PC6_dir==3:
+                yJPC6=yJPC6            
+                if xJPC6>=70 and xJPC6<=770:
+                    xJPC6+=vel+1
+                else:
+                    PC6_dir+=1
+                    JPC6=pygame.transform.rotate(JPC6,90)
+                    
+            elif PC6_dir== 4 or PC6_dir==0:
+                PC6_dir=4
+                xJPC6=xJPC6
+                if yJPC6<=606 and yJPC6>=106:
+                    yJPC6-=vel+2
+                else:
+                    PC6_dir+=1
+                    JPC6=pygame.transform.rotate(JPC6,90)
+
+    if Game==False:
+        opcion=0
+        
+        
+    pygame.display.update()
+
