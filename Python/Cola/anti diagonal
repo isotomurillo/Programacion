@@ -1,0 +1,11 @@
+def anti_dia_mat (mat):
+    if isinstance (mat,list) and len(mat)==len(mat[0]):
+        return diagonal(mat,0,0)
+    else:
+        return "Error"
+
+def diagonal (mat,ind,res):
+    if ind==-1:
+        return res
+    else:
+        return diagonal(mat,ind-1,res+mat[len(mat)-1][ind])
