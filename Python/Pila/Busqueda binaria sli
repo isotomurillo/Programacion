@@ -1,0 +1,15 @@
+def busbin (num,lis):
+    if isinstance (num,int) and (lis,list):
+        return bus(num,lis,len(lis))
+    else:
+         return "Error"
+
+def bus (num,lis,lar):
+    if lis==[]:
+        return False
+    elif num==lis[(lar//2)+1]:
+        return True
+    elif num<lis[lar//2]:
+        return bus(num,lis[:(lar//2)],len(lis[:(lar//2)]))
+    else:
+        return bus(num,lis[(lar//2):],len(lis[(lar//2):]))
