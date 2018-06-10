@@ -1,0 +1,62 @@
+class examen():
+    def __init__(self,num):
+        self.num=num
+
+    def cuenta (self):
+        res=0
+        while self.num>0:
+            res=res+1
+            self.num//10
+        print ("tiene: ", res," digitos")
+
+
+class orden ():
+    def __init__(self,lis):
+        self.lis=lis
+    def orden (self):
+        indi=0
+        largo=len(self.lis)-1
+        indi2=1
+        newlis=[]
+
+        for indi2 in range(largo):
+            if indi2>largo:
+                newlis=newlis+lis[indi]
+            elif lis[indi]<lis[indi2]:
+                indi2=indi2+1
+        #   elif lis
+
+
+class multi():
+    def __init__(self):
+        pass
+    def multimat(self):
+        matA=list(input("Matriz A"))
+        matB=list(input("Matriz B"))
+        matC=[]
+        largo=len(matA)
+        filaA=0
+        columA=0
+        filaB=0
+        columB=0
+        fila=[]
+        res=0
+
+        for filaA in range(len(matA)-1):
+            if columA==len(matA[0]) and len(matC(filaA)) != len(matA):
+                columA=0
+                filaA=filaA
+                filaB=0
+                columB=columB+1
+                fila=fila+[res]
+            elif columA==len(matA[0]) and len(matC(filaA)) == len(matA):
+                columA=0
+                filaA=filaA+1
+                filaB=0
+                columB=0
+                matC=matC+fila
+                fila=[]
+            else:
+                res=res+((matA[filaA][columA])*(matB[filaB][columB]))
+                columA=columA+1
+                filaB=filaB+1
