@@ -1,0 +1,17 @@
+public class Cuenta{
+	public void contar(int numero){
+		res=0;
+		while (numero>0){
+			res=res+1;
+			numero=numero/10;
+		}
+	System.out.println("Tiene : "+res+" digitos");
+	}
+
+
+	public static void main (int args){
+		Cuenta.numero=new Cuenta();
+		System.out.println("Ingrese el valor : ");
+		int numero=numero.contar;
+	}
+}
