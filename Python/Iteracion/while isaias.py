@@ -1,0 +1,16 @@
+def pares (num):
+    if isinstance (num,int) and num>=0:
+        return pares_aux(num)
+    else:
+        return "Error"
+
+def pares_aux(num):
+    listapar=[]
+    listaimpar=[]
+    while num>0:
+        digi=num%10
+        if (digi%2==0):
+            listapar+=[digi]
+        else: listaimpar+=[digi]
+        num=num//10
+    return listapar,listaimpar
